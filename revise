@@ -80,6 +80,7 @@ else:
 # The questions
 while count > 0:
     choice = random_choice(definitions)
+    # print(choice)
     user = input(
         '\n\033[0mWhat is \033[1m“{}“\033[0m?\n\033[33m→ '.format(choice[1]))
     definitions.pop(choice[0], None)
@@ -92,7 +93,13 @@ while count > 0:
     count -= 1
 
 # Print the results
-print('\n===\n')
+print('\n\033[0m===\n')
+
+if len(lost) == 0:
+    print('\033[1;32;6;7mBravo! You got it all right!\033[0m')
+else:
+    print('\033[1;32mYou got {} answers right out of {} ({}/20).\033[0m'.format(
+        len(won), len(won)+len(lost), round(len(won)/(len(won)+len(lost)) * 20, 2)))
 
 print('\n\033[1mYou lost:\033[0m')
 for i in lost:
