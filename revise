@@ -1,58 +1,86 @@
 #!/usr/bin/env python3
-import argparse
+from os import system, name
 import random
+import argparse
+
+
+'''Functions'''
+
+
+def random_choice(dict):
+    # Choose a random pair (key,value) from a dictionnary
+    keys = list(dict.keys())
+    val = random.choice(keys)
+    return (val, dict[val])
+
+
+def init_parser():
+    # Initialise the parse object to take CLI arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        'file_path', help="The file to open with the definitions")
+    parser.add_argument(
+        '-r', '--reverse', help="Reverse keys and definitions", action="store_true")
+    parser.add_argument('-l', '--length', default=0, type=int,
+                        help='Length of the test (all of the definitions if not set)')
+    return parser.parse_args()
+
+
+def init_dict():
+    # Initialise a dictionnary with the file specified.
+    dictionnary = dict()
+    with open(args.file_path, "r") as file:
+        for line in file:
+            if line[0] != '#':
+                if args.reverse:
+                    key = line.split(":")[1]
+                    val = line.split(":")[0]
+                else:
+                    key = line.split(":")[0]
+                    val = line.split(":")[1]
+                val = val.replace("\n", "")
+                dictionnary[key] = val
+    return dictionnary
+
+
+def clear():
+    # Clear the screen on any system
+    if name == 'nt':
+        system('cls')
+    else:
+        system('clear')
 
 
 '''Setup'''
 
-# Functions
-
-
-def random_choice(dict):
-    keys = list(dict.keys())
-    choice = random.choice(keys)
-    return (choice, dict[choice])
-
 
 # Parser
-parser = argparse.ArgumentParser()
-parser.add_argument('file_path', help="The file to open with the definitions")
-parser.add_argument(
-    '-r', '--reverse', help="Reverse keys and definitions", action="store_true")
-parser.add_argument('-l', '--length', default=0, type=int,
-                    help='Length of the test (all of the definitions if not set)')
-args = parser.parse_args()
+args = init_parser()
 
 # Definitions
-definitions = dict()
+definitions = init_dict()
 
-with open(args.file_path, "r") as file:
-    for line in file:
-        if line[0] != '#':
-            if args.reverse:
-                key = line.split(":")[1]
-                val = line.split(":")[0]
-            else:
-                key = line.split(":")[0]
-                val = line.split(":")[1]
-            val = val.replace("\n", "")
-            definitions[key] = val
+# Clear the screen
+clear()
 
-
-'''Program'''
-
+# Initialise Won/Lost lists
 won = list()
 lost = list()
 
+# Go through all of the dictionnary or only a specified number
 if args.length == 0:
     count = len(definitions)
 else:
     count = args.length
 
-# Test
+
+'''Program'''
+
+# The questions
 while count > 0:
     choice = random_choice(definitions)
-    user = input('\nWhat is \033[1m“{}“\033[0m?\n→ '.format(choice[1]))
+    user = input(
+        '\n\033[0mWhat is \033[1m“{}“\033[0m?\n\033[33m→ '.format(choice[1]))
     definitions.pop(choice[0], None)
     if user == choice[0]:
         won.append(choice)
@@ -62,13 +90,13 @@ while count > 0:
             '\033[31;1mWrong! It was “{}”!\033[0m'.format(choice[0]))
     count -= 1
 
-# Results
+# Print the results
 print('\n===\n')
 
 print('\n\033[1mYou lost:\033[0m')
 for i in lost:
-    print('+ \033[1m{}\033[0m which meant \033[1m{}\033[0m'.format(i[1], i[0]))
+    print('+ \033[1m{}\033[0m which was \033[1m{}\033[0m'.format(i[1], i[0]))
 
 print('\n\033[1mYou won: \033[0m')
 for i in won:
-    print('+ \033[1m{}\033[0m which meant \033[1m{}\033[0m'.format(i[1], i[0]))
+    print('+ \033[1m{}\033[0m which was \033[1m{}\033[0m'.format(i[1], i[0]))
