@@ -52,21 +52,23 @@ else:
 # Test
 while count > 0:
     choice = random_choice(definitions)
-    user = input('What is \033[1m“{}“\033[0m?\n  > '.format(choice[1]))
+    user = input('\nWhat is \033[1m“{}“\033[0m?\n→ '.format(choice[1]))
     definitions.pop(choice[0], None)
     if user == choice[0]:
         won.append(choice)
     else:
         lost.append(choice)
+        print(
+            '\033[31;1mWrong! It was “{}”!\033[0m'.format(choice[0]))
     count -= 1
 
 # Results
-print('===')
+print('\n===\n')
 
-print('\033[1mYou lost:\033[0m')
+print('\n\033[1mYou lost:\033[0m')
 for i in lost:
     print('+ \033[1m{}\033[0m which meant \033[1m{}\033[0m'.format(i[1], i[0]))
 
-print('\033[1mYou won: \033[0m')
+print('\n\033[1mYou won: \033[0m')
 for i in won:
     print('+ \033[1m{}\033[0m which meant \033[1m{}\033[0m'.format(i[1], i[0]))
