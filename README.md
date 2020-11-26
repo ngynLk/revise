@@ -1,4 +1,4 @@
-# A simple script to revise your vocab or other stuff
+# A simple cli tool to revise your vocab or other stuff
 
 ### Usage:
 
