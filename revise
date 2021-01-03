@@ -39,6 +39,7 @@ def init_dict():
                     key = line.split(":")[0]
                     val = line.split(":")[1]
                 val = val.replace("\n", "")
+                key = key.replace("\n", "")
                 dictionnary[key] = val
     return dictionnary
 
