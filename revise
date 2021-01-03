@@ -88,7 +88,7 @@ while count > 0:
     if user == choice[0]:
         won.append(choice)
     else:
-        lost.append(choice)
+        lost.append((choice, user))
         print(
             '\033[31;1mWrong! It was “{}”!\033[0m'.format(choice[0]))
     count -= 1
@@ -104,7 +104,7 @@ else:
 
 print('\n\033[1mYou lost:\033[0m')
 for i in lost:
-    print('+ \033[1m{}\033[0m which was \033[1m{}\033[0m'.format(i[1], i[0]))
+    print('+ \033[1m{}\033[0m which was \033[1m{}\033[0m. You wrote \033[1m{}\033[0m!'.format(i[1], i[0][0], i[0][1]))
 
 print('\n\033[1mYou won: \033[0m')
 for i in won:
