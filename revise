@@ -104,7 +104,7 @@ else:
 
 print('\n\033[1mYou lost:\033[0m')
 for i in lost:
-    print('+ \033[1m{}\033[0m which was \033[1m{}\033[0m. You wrote \033[1m{}\033[0m!'.format(i[1], i[0][0], i[0][1]))
+    print('+ \033[1m{}\033[0m which was \033[1m{}\033[0m. You wrote \033[1m{}\033[0m!'.format(i[0][1], i[0][0], i[1]))
 
 print('\n\033[1mYou won: \033[0m')
 for i in won:
