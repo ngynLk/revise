@@ -7,11 +7,10 @@ import argparse
 '''Functions'''
 
 
-def random_choice(dict):
+def random_choice(list):
     # Choose a random pair (key,value) from a dictionnary
-    keys = list(dict.keys())
-    val = random.choice(keys)
-    return (val, dict[val])
+    val = random.choice(list)
+    return val
 
 
 def init_parser():
@@ -28,19 +27,19 @@ def init_parser():
 
 def init_dict():
     # Initialise a dictionnary with the file specified.
-    dictionnary = dict()
+    dictionnary = list()
     with open(args.file_path, "r") as file:
         for line in file:
             if line[0] != '#':
                 if args.reverse:
-                    key = line.split(":")[1]
-                    val = line.split(":")[0]
-                else:
                     key = line.split(":")[0]
                     val = line.split(":")[1]
+                else:
+                    key = line.split(":")[1]
+                    val = line.split(":")[0]
                 val = val.replace("\n", "")
                 key = key.replace("\n", "")
-                dictionnary[key] = val
+                dictionnary.append((key, val))
     return dictionnary
 
 
@@ -84,7 +83,7 @@ while count > 0:
     # print(choice)
     user = input(
         '\n\033[0mWhat is \033[1m“{}“\033[0m?\n\033[33m→ '.format(choice[1]))
-    definitions.pop(choice[0], None)
+    definitions.remove(choice)
     if user == choice[0]:
         won.append(choice)
     else:
