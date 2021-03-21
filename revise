@@ -53,58 +53,64 @@ def clear():
 
 '''Setup'''
 
-random.seed()
-
 # Parser
 args = init_parser()
 
-# Definitions
-definitions = init_dict()
+
+def game(definitions=init_dict()):
+    random.seed()
 
 # Clear the screen
-clear()
+    clear()
 
 # Initialise Won/Lost lists
-won = list()
-lost = list()
+    won = list()
+    lost = list()
 
 # Go through all of the dictionnary or only a specified number
-if args.length == 0:
-    count = len(definitions)
-else:
-    count = args.length
+    if args.length == 0:
+        count = len(definitions)
+    else:
+        count = args.length
 
-
-'''Program'''
+    '''Program'''
 
 # The questions
-while count > 0:
-    choice = random_choice(definitions)
-    # print(choice)
-    user = input(
-        '\n\033[0mWhat is \033[1m“{}“\033[0m?\n\033[33m→ '.format(choice[1]))
-    definitions.remove(choice)
-    if user == choice[0]:
-        won.append(choice)
-    else:
-        lost.append((choice, user))
-        print(
-            '\033[31;1mWrong! It was “{}”!\033[0m'.format(choice[0]))
-    count -= 1
+    while count > 0:
+        choice = random_choice(definitions)
+        # print(choice)
+        user = input(
+            '\n\033[0mWhat is \033[1m“{}“\033[0m?\n\033[33m→ '.format(choice[1]))
+        definitions.remove(choice)
+        if user == choice[0]:
+            won.append(choice)
+        else:
+            lost.append((choice, user))
+            print(
+                '\033[31;1mWrong! It was “{}”!\033[0m'.format(choice[0]))
+        count -= 1
 
 # Print the results
-print('\n\033[0m===\n')
+    print('\n\033[0m===\n')
 
-if len(lost) == 0:
-    print('\033[1;32;6;7mBravo! You got it all right!\033[0m')
-else:
-    print('\033[1;32mYou got {} answers right out of {} ({}/20).\033[0m'.format(
-        len(won), len(won)+len(lost), round(len(won)/(len(won)+len(lost)) * 20, 2)))
+    if len(lost) == 0:
+        print('\033[1;32;6;7mBravo! You got it all right!\033[0m')
+    else:
+        print('\033[1;32mYou got {} answers right out of {} ({}/20).\033[0m'.format(
+            len(won), len(won)+len(lost), round(len(won)/(len(won)+len(lost)) * 20, 2)))
 
-print('\n\033[1mYou lost:\033[0m')
-for i in lost:
-    print('+ \033[1m{}\033[0m which was \033[1m{}\033[0m. You wrote \033[1m{}\033[0m!'.format(i[0][1], i[0][0], i[1]))
+    print('\n\033[1mYou lost:\033[0m')
+    for i in lost:
+        print(
+            '+ \033[1m{}\033[0m which was \033[1m{}\033[0m. You wrote \033[1m{}\033[0m!'.format(i[0][1], i[0][0], i[1]))
 
-print('\n\033[1mYou won: \033[0m')
-for i in won:
-    print('+ \033[1m{}\033[0m which was \033[1m{}\033[0m'.format(i[1], i[0]))
+    print('\n\033[1mYou won: \033[0m')
+    for i in won:
+        print('+ \033[1m{}\033[0m which was \033[1m{}\033[0m'.format(i[1], i[0]))
+
+    a = input('Continue? (Y/n)')
+    if a.lower() != 'n':
+        game(definitions=[i[0] for i in lost])
+
+
+game()
