@@ -69,9 +69,10 @@ def game(definitions=init_dict()):
 
 # Go through all of the dictionnary or only a specified number
     if args.length == 0:
-        count = len(definitions)
+        length = len(definitions)
     else:
-        count = args.length
+        length = args.length
+    count = length
 
     '''Program'''
 
@@ -80,7 +81,7 @@ def game(definitions=init_dict()):
         choice = random_choice(definitions)
         # print(choice)
         user = input(
-            '\n\033[0mWhat is \033[1m“{}“\033[0m?\n\033[33m→ '.format(choice[1]))
+            '\n\033[0mWhat is \033[1m“{}“\033[0m? ({} out of {})\n\033[33m→ '.format(choice[1], length-count+1, length))
         definitions.remove(choice)
         if user == choice[0]:
             won.append(choice)
@@ -110,7 +111,10 @@ def game(definitions=init_dict()):
 
     a = input('Continue? (Y/n)')
     if a.lower() != 'n':
-        game(definitions=[i[0] for i in lost])
+        if len(lost) != 0:
+            game(definitions=[i[0] for i in lost])
+        else:
+            print("You had everything right, it's done!")
 
 
 game()
